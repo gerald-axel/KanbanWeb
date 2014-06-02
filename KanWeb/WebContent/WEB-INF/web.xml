@@ -19,4 +19,14 @@
     <servlet-name>HolaMundo</servlet-name>
     <url-pattern>/HolaMundo</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddTask</display-name>
+    <servlet-name>AddTask</servlet-name>
+    <servlet-class>AddTask</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddTask</servlet-name>
+    <url-pattern>/AddTask</url-pattern>
+  </servlet-mapping>
 </web-app>
