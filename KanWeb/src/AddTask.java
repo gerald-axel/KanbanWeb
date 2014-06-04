@@ -1,10 +1,16 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+//import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class AddTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +55,13 @@ public class AddTask extends HttpServlet {
 				+"</tr>"
 				
 				+"<tr>"
+				+"<td>Prioridad:</td>"
+				+"<td>"
+				+"<input type=\"text\" name=\"priority\"/>"
+				+"</td>"
+				+"</tr>"
+				
+				+"<tr>"
 				+"<td>State:</td>"
 				+"<td>"
 				+"<select>"
@@ -63,7 +76,7 @@ public class AddTask extends HttpServlet {
 				+"<tr>"
 				+"<td>Due Date:</td>"
 				+"<td>"
-				+"<input type=\"text\" name=\"category\"/>"
+				+"<input type=\"text\" name=\"duedate\"/>"
 				+"</td>"
 				+"</tr>"
 				
@@ -80,16 +93,43 @@ public class AddTask extends HttpServlet {
 				+"</html>");
 	} 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {		
+		
 		String title=request.getParameter("title");
-				
-				response.setContentType("text/html");
+		String description=request.getParameter("description");
+		String owner=request.getParameter("owner");
+		String category=request.getParameter("category");
+		String duedate=request.getParameter("duedate");
+		String priority=request.getParameter("priority");
+
+		Task t=new Task();
+
+		t.setTitle(request.getParameter("title"));
+		t.setDescription(request.getParameter("description"));
+		t.setOwner(request.getParameter("owner"));
+		t.setCategory(new Category(request.getParameter("category")));
+		t.setPriority(Short.parseShort(priority));
+
+		Program.dashboard.add(t);
+
+		response.setContentType("text/html");
 		PrintWriter writer= response.getWriter();
 		writer.print("<html>"
-				+"<body>"
-				+"Title: "+title
-				+"</body>"
-				+"</html>");
+		+"<body>"
+		+"Title: "+title
+		+"<br>"
+		+"Description: "+description
+		+"<br>"
+		+"Owner: "+owner
+		+"<br>"
+		+"Category: "+category
+		+"<br>"
+		+"Due Date: "+duedate
+		+"<br>"
+		+"Priority: "+priority
+		+"<br>"
+		+"</body>"
+		+"</html>");
 	}
 
 }
