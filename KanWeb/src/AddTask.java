@@ -64,7 +64,7 @@ public class AddTask extends HttpServlet {
 				+"<tr>"
 				+"<td>State:</td>"
 				+"<td>"
-				+"<select>"
+				+"<select name=\"state\">"
 				+"<option value=\"BACKLOG\"selected>Backlog</option>"
 				+"<option value=\"TO_DO\">To do</option>"
 				+"<option value=\"IN_PROGRESS\">In progress</option>"
@@ -101,14 +101,28 @@ public class AddTask extends HttpServlet {
 		String category=request.getParameter("category");
 		String duedate=request.getParameter("duedate");
 		String priority=request.getParameter("priority");
-
+		String state=request.getParameter("state");
+		
 		Task t=new Task();
 
 		t.setTitle(request.getParameter("title"));
 		t.setDescription(request.getParameter("description"));
 		t.setOwner(request.getParameter("owner"));
-		t.setCategory(new Category(request.getParameter("category")));
+		t.setCategory(new Category(request.getParameter("category")));		
 		t.setPriority(Short.parseShort(priority));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		
+		try {
+			t.setDueDate(formatter.parse(request.getParameter("duedate")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		try {
+			t.setState(State.valueOf(request.getParameter("state")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		Program.dashboard.add(t);
 
@@ -128,6 +142,7 @@ public class AddTask extends HttpServlet {
 		+"<br>"
 		+"Priority: "+priority
 		+"<br>"
+		+"State: "+state
 		+"</body>"
 		+"</html>");
 	}
