@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 public class AddTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -65,7 +63,7 @@ public class AddTask extends HttpServlet {
 				+"<td>State:</td>"
 				+"<td>"
 				+"<select name=\"state\">"
-				+"<option value=\"BACKLOG\"selected>Backlog</option>"
+				+"<option value=\"BACKLOG\"selected>BackloG</option>"
 				+"<option value=\"TO_DO\">To do</option>"
 				+"<option value=\"IN_PROGRESS\">In progress</option>"
 				+"<option value=\"DONE\">done</option>"
@@ -76,7 +74,7 @@ public class AddTask extends HttpServlet {
 				+"<tr>"
 				+"<td>Due Date:</td>"
 				+"<td>"
-				+"<input type=\"text\" name=\"duedate\"/>"
+				+"<input type=\"text\" name=\"duedate\"/>" 
 				+"</td>"
 				+"</tr>"
 				
@@ -95,21 +93,12 @@ public class AddTask extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {		
 		
-		String title=request.getParameter("title");
-		String description=request.getParameter("description");
-		String owner=request.getParameter("owner");
-		String category=request.getParameter("category");
-		String duedate=request.getParameter("duedate");
-		String priority=request.getParameter("priority");
-		String state=request.getParameter("state");
-		
 		Task t=new Task();
 
 		t.setTitle(request.getParameter("title"));
 		t.setDescription(request.getParameter("description"));
 		t.setOwner(request.getParameter("owner"));
 		t.setCategory(new Category(request.getParameter("category")));		
-		t.setPriority(Short.parseShort(priority));
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
 		
@@ -123,26 +112,33 @@ public class AddTask extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		try {
+			t.setPriority(Short.parseShort(request.getParameter("priority")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		Program.dashboard.add(t);
-
+		
 		response.setContentType("text/html");
 		PrintWriter writer= response.getWriter();
+
 		writer.print("<html>"
 		+"<body>"
-		+"Title: "+title
+		+"Title: " +request.getParameter("title")
 		+"<br>"
-		+"Description: "+description
+		+"Description: "+request.getParameter("description")
 		+"<br>"
-		+"Owner: "+owner
+		+"Owner: "+request.getParameter("owner")
 		+"<br>"
-		+"Category: "+category
+		+"Category: "+request.getParameter("category")
 		+"<br>"
-		+"Due Date: "+duedate
+		+"Due Date: "+request.getParameter("duedate")
 		+"<br>"
-		+"Priority: "+priority
+		+"Priority: "+request.getParameter("priority")
 		+"<br>"
-		+"State: "+state
+		+"State: "+request.getParameter("state")
+		+ "</table>"
 		+"</body>"
 		+"</html>");
 	}
