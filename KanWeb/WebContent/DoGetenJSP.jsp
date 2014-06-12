@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <script>
-window.alert("Inicia tu super codigo");
+<%--window.alert("Inicia tu super codigo");--%>
 </script>
 <body>
 	<script>
@@ -18,10 +18,34 @@ window.alert("Inicia tu super codigo");
 		var category=document.forms["task_form"]["category"].value;
 		var priority=document.forms["task_form"]["priority"].value;
 
-		if(!title||!description||!owner||!duedate||!category||!priority){
-			alert("Something is missing");
+			if(!title){
+			alert("Title is missing"); 
 			return false;
-		}
+			}
+		
+			else if(!description){
+			alert("Description is missing");
+			return false;
+			}
+			else if(!owner){
+			alert("Owner is missing");
+			return false;
+			}
+		
+		    else if(!duedate){
+			alert("Due Date is missing");
+			return false;
+		     }
+			else if(!category){
+			alert("Category is missing");
+			return false;
+			}
+			
+			else if(!priority){
+			alert("Priority is missing");
+			return false;
+			}
+
 		return true;		
 	}
 	</script>
